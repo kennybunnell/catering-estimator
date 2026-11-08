@@ -1,0 +1,4 @@
+export const packages=[{id:"classic",name:"Classic",description:"Comforting favorites, beautifully presented",price:24},{id:"signature",name:"Signature",description:"Elevated seasonal flavors and thoughtful details",price:42},{id:"luxury",name:"Luxury",description:"An unforgettable gourmet experience",price:72}] as const;
+export type PackageId=typeof packages[number]["id"];
+export type ServiceId="dropoff"|"buffet"|"plated";
+export function estimate(guests:number,packageId:string,serviceId:string,delivery:boolean){const count=Math.max(10,Math.min(1000,Math.round(Number(guests)||10)));const pkg=packages.find(p=>p.id===packageId)||packages[1];const food=count*pkg.price;const staffing=serviceId==="plated"?Math.max(450,Math.ceil(count/18)*165):serviceId==="buffet"?Math.max(175,Math.ceil(count/35)*135):0;const transport=delivery?95:0;return {guests:count,package:pkg.name,food,staffing,transport,total:food+staffing+transport};}
